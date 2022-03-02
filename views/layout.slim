@@ -1,0 +1,22 @@
+doctype html 
+html 
+    head 
+        title Code chart
+        link rel="stylesheet" href="/css/style.css"
+        link rel="stylesheet" href="/css/my_style.css"
+    body
+        header 
+            nav 
+                a href="/" Home 
+                form action="search_post" method="get" 
+                    input# type="search" name="search" placeholder="search_post"
+                    button type="submit" search
+                form action="search_doc" method="get" 
+                    input# type="search" name="search" placeholder="search_doc"
+                    button type="submit" search 
+                - if false 
+                    a href="/account/#{"id sometinge"}" Account: #{"användarnamn"}
+                - else
+                    a href="/account/login" Login/register
+        main
+            == yield 
