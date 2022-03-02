@@ -1,5 +1,4 @@
 require 'sinatra'
-require 'sqlite3'
 require 'sinatra/custom_logger'
 require 'logger'
 require 'slim'
@@ -18,6 +17,12 @@ else
     p "set logger to INFO"
 end
 
+
+require_relative 'model.rb'
+
+
+
+
 get '/' do
     slim :index
 end
@@ -25,3 +30,22 @@ end
 get '/account/login' do 
     slim :login
 end
+
+get '/account/new' do 
+    slim :account_new
+end
+
+post 'account/new' do
+    if params[:passwd] == params[:passwd_re]
+        id = create_user(params[:user_name],
+            params[:first_name],
+            params[:last_name],
+            params[:passwd])
+        redirect
+    else
+    end
+
+end
+
+get '/error' do 
+    slim :error
