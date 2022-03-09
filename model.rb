@@ -42,7 +42,7 @@ def create_user(user_name, first_name, last_name, passwd)
         last_name,
         x = BCrypt::Password.create(passwd),
         1)
-        return db.execute("SELECT id FROM users WHERE user_name=? AND paswd_hash=?",user_name, x)[0][0]
+        return db.execute("SELECT id FROM users WHERE user_name=? AND paswd_hash=?",user_name, x)[0]["id"]
     else
         return -1
     end
