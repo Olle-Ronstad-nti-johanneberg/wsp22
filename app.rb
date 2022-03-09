@@ -20,7 +20,12 @@ end
 
 require_relative 'model.rb'
 
+enable :sessions
 
+def send_err_msg(msg)
+    session[:err_msg] = msg
+    redirect '/error'
+end
 
 
 get '/' do
@@ -35,17 +40,33 @@ get '/account/new' do
     slim :account_new
 end
 
-post 'account/new' do
+post '/account/new' do
     if params[:passwd] == params[:passwd_re]
-        id = create_user(params[:user_name],
+        id = create_user(
+            params[:user_name],
             params[:first_name],
             params[:last_name],
             params[:passwd])
-        redirect
+        if id == -1
+            send_err_msg("first and last name combo alredy exist")
+        end
+        redirect "/account/#{id}"
     else
+        
+        send_err_msg("passwords don't match")
     end
 
 end
 
+get '/account/:id/edit' do
+    slim :account_edit, locals:{user:get_user(params[:id])}
+end
+
+get '/account/:id' do 
+    slim :account, locals:{user:get_user_pub(params[:id])}
+end
+
 get '/error' do 
-    slim :error
+    slim :error, locals:{msg:session[:err_msg]}
+    #slim :error locals:{msg:params[:msg]}
+end

@@ -1,0 +1,6 @@
+form action="/account/#{params[:id]}/update" method="post" 
+    -user.each do |key, value|
+        input type="text" name="#{key}" placeholder="#{value}"
+    label for="passwd" enter passwd to confirm
+    input type="password" name="passwd"
+    button type="submit" confirm
