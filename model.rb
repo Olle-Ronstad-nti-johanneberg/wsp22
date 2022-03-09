@@ -22,6 +22,12 @@ def auth(owner_id,req_auth_level,user_id,user_passwd)
     end
 end
 
+#return user id based on first_name and last_name
+def get_user_id(first_name,last_name)
+    load_db().execute("SELECT id FROM users WHERE first_name=? AND last_name=?",first_name,last_name)[0]["id"]
+end
+
+
 #return data about the user
 def get_user(id)
     return load_db().execute("SELECT user_name,first_name,last_name,admin_level FROM users WHERE id=?",id)[0]
