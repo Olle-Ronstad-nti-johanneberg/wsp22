@@ -8,8 +8,15 @@ def load_db()
     db
 end
 
-def auth(id,passwd)
-    true
+def auth(owner_id,req_auth_level,user_id,user_passwd)
+    return true
+    db = load_db()
+    if owner_id == user_id
+        return db.execute("SELECT paswd_hash FROM users WHERE id=?",owner_id)[0]["id"] == BCrypt::Password.create(user_passwd)
+    else
+        user_hash = db.execute("SELECT paswd_hash FROM users WHERE id=?",owner_id)[0]
+        return (user_hash["admin_level"] >= req_auth_level) && user_hash["paswd_hash"]BCrypt::Password.create(user_passwd)
+    end
 end
 
 
