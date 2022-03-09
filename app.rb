@@ -18,6 +18,7 @@ else
 end
 
 
+require_relative 'terminal_color.rb'
 require_relative 'model.rb'
 
 enable :sessions
@@ -63,7 +64,7 @@ get '/account/:id/edit' do
 end
 
 post '/account/:id/update' do 
-    if auth(params[:id],params[:passwd])
+    if auth(params[:id],10,get_user_id(params[:auth_first_name],params[:auth_last_name]),params[:auth_paswd])
         load_db().execute("UPDATE users SET user_name = ?,first_name = ?, last_name = ? WHERE id = ?",params[:user_name],params[:first_name],params[:last_name],params[:id])
         redirect "/account/#{params[:id]}"
     else
