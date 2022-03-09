@@ -8,6 +8,11 @@ def load_db()
     db
 end
 
+def auth(id,passwd)
+    true
+end
+
+
 def get_user(id)
     return load_db().execute("SELECT user_name,first_name,last_name,admin_level FROM users WHERE id=?",id)[0]
 end

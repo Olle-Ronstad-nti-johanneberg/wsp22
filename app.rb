@@ -62,6 +62,16 @@ get '/account/:id/edit' do
     slim :account_edit, locals:{user:get_user(params[:id])}
 end
 
+post '/account/:id/update' do 
+    if auth(params[:id],params[:passwd])
+        load_db().execute("UPDATE users SET user_name = ?,first_name = ?, last_name = ? WHERE id = ?",params[:user_name],params[:first_name],params[:last_name],params[:id])
+        redirect "/account/#{params[:id]}"
+    else
+        send_err_msg("authentication failed")
+    end
+end
+
+
 get '/account/:id' do 
     slim :account, locals:{user:get_user_pub(params[:id])}
 end
