@@ -40,9 +40,9 @@ end
 
 #creates the user with the specified data and returns the users id
 def create_user(user_name, first_name, last_name, passwd)
-    db = SQLite3::Database.new('DB/DataBase.db')
+    db = load_db
     if db.execute("SELECT * FROM users WHERE first_name=? AND last_name=?",first_name,last_name).empty?
-        db.execute("INSERT INTO users (user_name,first_name,last_name, paswd_hash,admin_level) VALUES (?,?,?,?,?)",
+        db.execute("INSERT INTO users (user_name, first_name, last_name, paswd_hash, admin_level) VALUES (?,?,?,?,?)",
         user_name,
         first_name,
         last_name,
