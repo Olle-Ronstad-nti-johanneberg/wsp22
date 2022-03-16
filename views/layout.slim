@@ -8,12 +8,6 @@ html
         header 
             nav 
                 a href="/" Home 
-                form action="search_post" method="get" 
-                    input# type="search" name="search" placeholder="search_post"
-                    button type="submit" search
-                form action="search_doc" method="get" 
-                    input# type="search" name="search" placeholder="search_doc"
-                    button type="submit" search 
                 - if session[:user_id].nil?  
                     a href="/account/login" Login/register
                 - else
