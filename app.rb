@@ -6,6 +6,9 @@ require 'slim'
 p "loaded sinatra, sqlite3,,sinatra/custom_logger, logger, slim"
 set :logger, Logger.new(File.open('./log', 'a'))
 
+
+# if "d" is given as an arugment at program start
+# this loads things that may be used for debugging
 if ARGV.include?("d")
     require 'byebug'
     require 'sinatra/reloader'
@@ -14,7 +17,7 @@ if ARGV.include?("d")
     p "set logger to DEBUG"
 else
     set :logger, Logger::WARN
-    p "set logger to INFO"
+    p "set logger to WARN"
 end
 
 
@@ -22,25 +25,38 @@ require_relative 'terminal_color.rb'
 require_relative 'model.rb'
 
 enable :sessions
-
+# takes an argument(msg) and displays it to the user
 def send_err_msg(msg)
     session[:err_msg] = msg
     redirect '/error'
 end
 
+get '/error' do 
+    slim :error, locals:{msg:session[:err_msg]}
+    #slim :error locals:{msg:params[:msg]}
+end
+
+# account realated routs goes here
+
+# ends the session and redirects the user to "/"
 get '/logout' do 
     session.clear
     redirect '/'
 end
 
+# homepage
 get '/' do
     slim :index
 end
 
+# loginpage
 get '/account/login' do 
     slim :login
 end
 
+# logs the user in with the help of passed data, if the user is not found
+# or the password is incorect an error mesage is displayed
+# if login is succelsful redirect the user to "/account/user_id"
 post '/account/login' do
     user_id = get_user_id(params[:first_name],params[:last_name])
     if user_id.nil?
@@ -57,10 +73,13 @@ post '/account/login' do
     end
 end
 
+# create account page
 get '/account/new' do 
     slim :account_new
 end
 
+# creataes an account, if first_name and last_name combination alredy exist
+# show an error
 post '/account/new' do
     if params[:passwd] == params[:passwd_re]
         id = create_user(
@@ -79,10 +98,12 @@ post '/account/new' do
 
 end
 
+# account edit page
 get '/account/:id/edit' do
     slim :account_edit, locals:{user:get_user(params[:id])}
 end
 
+# edits the account
 post '/account/:id/update' do 
     if auth(params[:id],10,get_user_id(params[:auth_first_name],params[:auth_last_name]),params[:auth_paswd])
         load_db().execute("UPDATE users SET user_name = ?,first_name = ?, last_name = ? WHERE id = ?",params[:user_name],params[:first_name],params[:last_name],params[:id])
@@ -92,12 +113,7 @@ post '/account/:id/update' do
     end
 end
 
-
+# shows an account
 get '/account/:id' do 
     slim :account, locals:{user:get_user_pub(params[:id])}
-end
-
-get '/error' do 
-    slim :error, locals:{msg:session[:err_msg]}
-    #slim :error locals:{msg:params[:msg]}
 end
