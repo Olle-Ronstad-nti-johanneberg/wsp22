@@ -37,6 +37,22 @@ get '/account/login' do
     slim :login
 end
 
+post '/account/login' do
+    user_id = get_user_id(params[:first_name],params[:last_name])
+    if user_id.nil?
+        send_err_msg("password or user credentials are wrong")
+    end
+    if auth(user_id,15,user_id,params[:passwd])
+        user = get_user(user_id)
+        session[:user_id] = user_id
+        session[:user_name] = user["user_name"]
+        session[:admin_level] = user["admin_level"]
+        redirect ("/account/#{user_id}")
+    else
+        send_err_msg("password or user credentials are wrong")
+    end
+end
+
 get '/account/new' do 
     slim :account_new
 end
