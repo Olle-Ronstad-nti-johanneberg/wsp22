@@ -1,3 +1,5 @@
 -user.each do |key,value|
     p #{key + ": "+value.to_s}
 a href ="/account/#{params[:id]}/edit" edit profile 
+- if !session[:user_id].nil?
+    a href="/logout" logout

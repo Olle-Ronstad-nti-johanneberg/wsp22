@@ -28,6 +28,10 @@ def send_err_msg(msg)
     redirect '/error'
 end
 
+get '/logout' do 
+    session.clear
+    redirect '/'
+end
 
 get '/' do
     slim :index
