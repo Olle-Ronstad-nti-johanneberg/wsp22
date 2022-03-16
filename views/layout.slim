@@ -1,7 +1,7 @@
 doctype html 
 html 
     head 
-        title Code chart
+        title webserver slut project 
         link rel="stylesheet" href="/css/style.css"
         link rel="stylesheet" href="/css/my_style.css"
     body
@@ -14,9 +14,9 @@ html
                 form action="search_doc" method="get" 
                     input# type="search" name="search" placeholder="search_doc"
                     button type="submit" search 
-                - if false 
-                    a href="/account/#{"id sometinge"}" Account: #{"användarnamn"}
-                - else
+                - if session[:user_id].nil?  
                     a href="/account/login" Login/register
+                - else
+                    a href="/account/#{session[:user_id]}" Account: #{session[:user_name]}
         main
             == yield 
