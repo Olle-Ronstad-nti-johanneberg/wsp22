@@ -24,7 +24,12 @@ end
 
 #return user id based on first_name and last_name
 def get_user_id(first_name,last_name)
-    load_db().execute("SELECT id FROM users WHERE first_name=? AND last_name=?",first_name,last_name)[0]["id"]
+    x = load_db().execute("SELECT id FROM users WHERE first_name=? AND last_name=?",first_name,last_name)[0]
+    if x.nil?
+        return nil
+    else
+        return x["id"]
+    end 
 end
 
 
