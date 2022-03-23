@@ -1,14 +1,6 @@
 require 'bcrypt'
 require 'sqlite3'
 
-
-#load the database and sets reasult as hash flag to true
-def load_db()
-    db = SQLite3::Database.new('DB/DataBase.db')
-    db.results_as_hash = true
-    db
-end
-
 #return user id based on first_name and last_name
 def get_user_id(first_name,last_name)
     x = load_db().execute("SELECT id FROM users WHERE first_name=? AND last_name=?",first_name,last_name)[0]
@@ -18,7 +10,6 @@ def get_user_id(first_name,last_name)
         return x["id"]
     end 
 end
-
 
 #return data about the user
 def get_user(id)
