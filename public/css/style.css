@@ -51,6 +51,7 @@ html > body > header {
 }
 
 button {
+    color: var(--primary-inverse);
     width: 100%;
     border-color: var(--primary);
     box-shadow: var(--button-box-shadow, 0 0 0 rgba(0, 0, 0, 0));
