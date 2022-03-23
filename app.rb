@@ -22,7 +22,9 @@ end
 
 
 require_relative 'terminal_color.rb'
-require_relative 'model.rb'
+require_relative 'db_tools.rb'
+require_relative 'auth.rb'
+require_relative 'db_user_tools.rb'
 
 enable :sessions
 # takes an argument(msg) and displays it to the user
@@ -115,5 +117,20 @@ end
 
 # shows an account
 get '/account/:id' do 
-    slim :account, locals:{user:get_user_pub(params[:id])}
+    puts session[:user_id].to_s.red
+    if session[:user_id] == params[:id].to_i
+        slim :account, locals:{user:get_user(params[:id])}
+    else
+        slim :account, locals:{user:get_user_pub(params[:id])}
+    end
 end
+
+# create docs page
+get '/docs/new' do
+    if !session[:user_id].nil?
+        slim :docs_new
+    else
+        send_err_msg "please login to create docs"
+    end
+end
+
