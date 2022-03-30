@@ -25,6 +25,7 @@ require_relative 'model/terminal_color.rb'
 require_relative 'model/db_tools.rb'
 require_relative 'model/auth.rb'
 require_relative 'model/db_user_tools.rb'
+require_relative 'model/db_docs_tools.rb'
 
 enable :sessions
 # takes an argument(msg) and displays it to the user
@@ -134,3 +135,12 @@ get '/docs/new' do
     end
 end
 
+# create doc
+post '/docs/new' do 
+    if !session[:user_id].nil?
+        id = create_doc(params[:head],params[:body],params[:source])
+        redirect "/docs/#{id}"
+    else
+        send_err_msg "hello hackerman"
+    end
+end
