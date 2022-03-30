@@ -21,10 +21,10 @@ else
 end
 
 
-require_relative 'terminal_color.rb'
-require_relative 'db_tools.rb'
-require_relative 'auth.rb'
-require_relative 'db_user_tools.rb'
+require_relative 'model/terminal_color.rb'
+require_relative 'model/db_tools.rb'
+require_relative 'model/auth.rb'
+require_relative 'model/db_user_tools.rb'
 
 enable :sessions
 # takes an argument(msg) and displays it to the user
