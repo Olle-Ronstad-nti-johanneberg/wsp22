@@ -144,3 +144,9 @@ post '/docs/new' do
         send_err_msg "hello hackerman"
     end
 end
+
+
+
+get '/docs/:id' do 
+    slim :doc, locals:{doc:get_doc_by_id(params[:id].to_i)}
+end
