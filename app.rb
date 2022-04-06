@@ -154,7 +154,7 @@ post '/docs/:id/update' do
 end
 
 get '/docs/search' do
-  "#{search_doc(params[:search])}"
+  slim :"doc/index", locals:{docs:search_doc(params[:search])}
 end
 
 get '/docs/:id' do
