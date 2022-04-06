@@ -1,0 +1,9 @@
+form action="/docs/#{params[:id]}/update" method="post" 
+    
+    label for="head" title
+    input type="text" name="head" value="#{doc["head"]}"
+    label for="body" text content
+    textarea name="body" #{doc["body"]}
+    label for="source" source 
+    input type="url" name="source" value="#{doc["source"]}"
+    button type="submit" Submit changes
