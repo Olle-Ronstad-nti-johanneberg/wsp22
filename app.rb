@@ -74,7 +74,7 @@ end
 
 # create account page
 get '/account/new' do
-  slim :account_new
+  slim :"account/new"
 end
 
 # creataes an account, if first_name and last_name combination alredy exist
@@ -97,7 +97,7 @@ end
 
 # account edit page
 get '/account/:id/edit' do
-  slim :account_edit, locals: { user: get_user(params[:id]) }
+  slim :"account/edit", locals: { user: get_user(params[:id]) }
 end
 
 # edits the account
@@ -115,16 +115,16 @@ end
 get '/account/:id' do
   puts session[:user_id].to_s.red
   if session[:user_id] == params[:id].to_i
-    slim :account, locals: { user: get_user(params[:id]) }
+    slim :"account/show", locals: { user: get_user(params[:id]) }
   else
-    slim :account, locals: { user: get_user_pub(params[:id]) }
+    slim :"account/show", locals: { user: get_user_pub(params[:id]) }
   end
 end
 
 # create docs page
 get '/docs/new' do
   if !session[:user_id].nil?
-    slim :docs_new
+    slim :"doc/new"
   else
     send_err_msg 'please login to create docs'
   end
@@ -141,7 +141,7 @@ post '/docs/new' do
 end
 
 get '/docs/:id/edit' do
-  slim :doc_edit, locals: { doc: get_doc_by_id(params[:id].to_i) }
+  slim :"doc/edit", locals: { doc: get_doc_by_id(params[:id].to_i) }
 end
 
 post '/docs/:id/update' do
@@ -158,5 +158,5 @@ get '/docs/search' do
 end
 
 get '/docs/:id' do
-  slim :doc, locals: { doc: get_doc_by_id(params[:id].to_i) }
+  slim :"doc/show", locals: { doc: get_doc_by_id(params[:id].to_i) }
 end
