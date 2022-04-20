@@ -1,2 +1,5 @@
--doc.each do |key,value|
-    p #{key + ": "+value.to_s}
+h1 #{doc['head']}
+p document id: #{doc['id']}
+p docuemnt last edited: #{doc['date']}
+p #{doc['body']}
+a href="#{doc['source']}" source: #{doc['source']}
