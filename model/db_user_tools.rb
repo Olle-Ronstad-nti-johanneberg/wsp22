@@ -13,7 +13,7 @@ end
 
 # return data about the user
 def get_user(id)
-  load_db.execute('SELECT user_name,first_name,last_name,admin_level FROM users WHERE id=?', id)[0]
+  load_db.execute('SELECT id, user_name,first_name,last_name,admin_level FROM users WHERE id=?', id)[0]
 end
 
 # return data about the user wich is demed public, such as username and firstname

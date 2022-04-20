@@ -113,12 +113,7 @@ end
 
 # shows an account
 get '/account/:id' do
-  puts session[:user_id].to_s.red
-  if session[:user_id] == params[:id].to_i
-    slim :"account/show", locals: { user: get_user(params[:id]) }
-  else
-    slim :"account/show", locals: { user: get_user_pub(params[:id]) }
-  end
+  slim :"account/show", locals: { user: get_user(params[:id]), user_id:session[:user_id]}
 end
 
 # create docs page
