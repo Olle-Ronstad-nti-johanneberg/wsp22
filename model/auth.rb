@@ -14,3 +14,12 @@ def auth(owner_id, req_auth_level, user_id, user_passwd)
     (user_hash['admin_level'] >= req_auth_level) && BCrypt.passwd.new(user_hash['paswd_hash']) == user_passwd
   end
 end
+
+def cookie_auth(owner_id, req_auth_level)
+  return true
+  if session[:user_id]
+    session[:user_id] == owner_id || session[:admin_level] >= req_auth_level
+  else
+    false
+  end
+end
