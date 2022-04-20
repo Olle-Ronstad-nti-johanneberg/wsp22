@@ -25,7 +25,11 @@ require_relative 'model/auth'
 require_relative 'model/db_user_tools'
 require_relative 'model/db_docs_tools'
 
+EDIT_ACOUNT_AUTH = 10
+EDIT_DOC_AUTH = 2
+
 enable :sessions
+
 # takes an argument(msg) and displays it to the user
 def send_err_msg(msg)
   session[:err_msg] = msg
@@ -102,7 +106,7 @@ end
 
 # edits the account
 post '/account/:id/update' do
-  if auth(params[:id], 10, get_user_id(params[:auth_first_name], params[:auth_last_name]), params[:auth_paswd])
+  if auth(params[:id], EDIT_ACOUNT_AUTH, get_user_id(params[:auth_first_name], params[:auth_last_name]), params[:auth_paswd])
     load_db.execute('UPDATE users SET user_name = ?,first_name = ?, last_name = ? WHERE id = ?',
                     params[:user_name], params[:first_name], params[:last_name], params[:id])
     redirect "/account/#{params[:id]}"
@@ -136,15 +140,15 @@ post '/docs/new' do
 end
 
 get '/docs/:id/edit' do
-  slim :"doc/edit", locals: { doc: get_doc_by_id(params[:id].to_i) }
+  slim :"doc/edit", locals: { doc: get_doc_by_id(params[:id].to_i)}
 end
 
 post '/docs/:id/update' do
-  if true
+  if cookie_auth(nil, EDIT_DOC_AUTH)
     update_doc(params[:id],params[:head], params[:body], params[:source])
     redirect redirect "/docs/#{params[:id]}"
   else
-    send_err_msg 'hello hackerman'
+    send_err_msg 'missing the requierd auth'
   end
 end
 
@@ -153,5 +157,6 @@ get '/docs/search' do
 end
 
 get '/docs/:id' do
-  slim :"doc/show", locals: { doc: get_doc_by_id(params[:id].to_i) }
+  slim :"doc/show", locals: { doc: get_doc_by_id(params[:id].to_i), show_edit: cookie_auth(nil, EDIT_DOC_AUTH)}
 end
+

@@ -1,5 +1,8 @@
 h1 #{doc['head']}
-p document id: #{doc['id']}
-p docuemnt last edited: #{doc['date']}
+p Document id: #{doc['id']}
+p Docuemnt last edited: #{doc['date']}
 p #{doc['body']}
-a href="#{doc['source']}" source: #{doc['source']}
+a href="#{doc['source']}" Source: #{doc['source']}
+-if show_edit
+  div 
+    a href="/docs/#{doc['id']}/edit" Edit
