@@ -90,7 +90,7 @@ end
 # @param [String] body The body of the post
 # @param [Array<Integer>] doc_link_ids An array of doc ids #[intgers] which describe the docs to link to
 #
-def update_post(id,body,head,doc_link_ids)
+def update_post(id, body, head, doc_link_ids)
   db = load_db
   date = Time.new.to_s
   db.execute('UPDATE post
