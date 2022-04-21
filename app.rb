@@ -52,8 +52,6 @@ get '/logout' do
   redirect '/'
 end
 
-
-
 # homepage
 get '/' do
   slim :index
