@@ -24,6 +24,8 @@ require_relative 'model/db_tools'
 require_relative 'model/auth'
 require_relative 'model/db_user_tools'
 require_relative 'model/db_docs_tools'
+require_relative 'model/db_posts_tools'
+
 
 EDIT_ACOUNT_AUTH = 10
 EDIT_DOC_AUTH = 2
@@ -146,7 +148,7 @@ end
 post '/docs/:id/update' do
   if cookie_auth(nil, EDIT_DOC_AUTH)
     update_doc(params[:id],params[:head], params[:body], params[:source])
-    redirect redirect "/docs/#{params[:id]}"
+    redirect "/docs/#{params[:id]}"
   else
     send_err_msg 'missing the requierd auth'
   end
@@ -160,3 +162,28 @@ get '/docs/:id' do
   slim :"doc/show", locals: { doc: get_doc_by_id(params[:id].to_i), show_edit: cookie_auth(nil, EDIT_DOC_AUTH)}
 end
 
+get '/posts/new' do
+  if !session[:user_id].nil?
+    slim :"posts/new", locals: { all_docs: get_all_docs_head_id }
+  else
+    send_err_msg 'please login to create posts'
+  end
+end
+
+# posts routes goes here
+post '/posts/new' do
+  tmp_doc = params.select do |key,value|
+    key[0, 4] == 'doc_' && value = 'on'
+  end
+  doc_ids = tmp_doc.to_a.map do |doc|
+    doc[0][4..-1].to_i
+  end
+  id = create_post(params['head'], params['body'], doc_ids)
+  redirect "/posts/#{id}"
+end
+
+get '/posts/:id' do
+  post = get_post_by_id(params[:id])
+  doc_links = get_doc_links_from_post_id(params[:id])
+  slim :"posts/show", locals: { post: post, doc_links: doc_links }
+end

@@ -32,3 +32,8 @@ def search_doc(word)
   db.execute('SELECT id, head, date FROM doc WHERE head LIKE ?',
              "%#{word}%")
 end
+
+def get_all_docs_head_id
+  db = load_db
+  db.execute('SELECT id, head FROM doc')
+end
