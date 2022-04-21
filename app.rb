@@ -26,9 +26,10 @@ require_relative 'model/db_user_tools'
 require_relative 'model/db_docs_tools'
 require_relative 'model/db_posts_tools'
 
-
+CREATE_DOC_AUTH = 1
 EDIT_ACOUNT_AUTH = 10
 EDIT_DOC_AUTH = 2
+CREATE_POST_AUTH = 0
 
 enable :sessions
 
@@ -50,6 +51,8 @@ get '/logout' do
   session.clear
   redirect '/'
 end
+
+
 
 # homepage
 get '/' do
@@ -172,14 +175,31 @@ end
 
 # posts routes goes here
 post '/posts/new' do
-  tmp_doc = params.select do |key,value|
-    key[0, 4] == 'doc_' && value = 'on'
+  tmp_doc = params.select do |key, value|
+    key[0, 4] == 'doc_' && value == 'on'
   end
   doc_ids = tmp_doc.to_a.map do |doc|
     doc[0][4..-1].to_i
   end
   id = create_post(params['head'], params['body'], doc_ids)
   redirect "/posts/#{id}"
+end
+
+get '/posts/:id/edit' do
+  slim :"posts/edit", locals: { all_docs: get_all_docs_head_id,
+                                post: get_post_by_id(params[:id]),
+                                doc_links: get_doc_links_from_post_id(params[:id]) }
+end
+
+post '/posts/:id/update' do
+  tmp_doc = params.select do |key, value|
+    key[0, 4] == 'doc_' && value == 'on'
+  end
+  doc_ids = tmp_doc.to_a.map do |doc|
+    doc[0][4..-1].to_i
+  end
+  update_post(params[:id], params['body'], params['head'], doc_ids)
+  redirect "/posts/#{params[:id]}"
 end
 
 get '/posts/:id' do
