@@ -1,0 +1,14 @@
+h2 edit posts
+p #{post['date']}
+a href="/account/#{post['user']}" link to user
+form action="/posts/#{params[:id]}/update" method="post"  
+  input type="text" name="head" value="#{post['head']}"
+  textarea cols="30" rows="10"  name="body" #{post['body']}
+  -all_docs.each do |doc|
+      div
+        -if doc_links.include?(doc)
+          input [type="checkbox" name="doc_#{doc['id']}" checked] #{doc['head']} 
+        -else
+          input [type="checkbox" name="doc_#{doc['id']}"] #{doc['head']} 
+
+  button type="submit" post

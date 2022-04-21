@@ -1,0 +1,6 @@
+h1 search results for: #{params[:search]}
+-docs.each do |doc|
+  article 
+    a href="/docs/#{doc["id"]}" 
+      h2 #{doc["head"]}
+    p date #{doc["date"]}
