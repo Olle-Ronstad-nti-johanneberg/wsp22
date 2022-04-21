@@ -1,3 +1,12 @@
+#
+# Creates a post with the given head, body, time at creation and links to docs
+#
+# @param [String] head The head of the post
+# @param [String] body The body of the post
+# @param [Array<Integer>] doc_link_ids An array of doc ids #[intgers] which describe the docs to link to
+#
+# @return [Integer] Id of the created post
+#
 def create_post(head, body, doc_link_ids)
   db = load_db
   date = Time.new.to_s
@@ -28,7 +37,7 @@ def get_post_by_id(id)
 end
 
 #
-# Returns a array with the head and id of the docs linked to the given post
+# Returns a #[Array] with the head and id of the docs linked to the given post
 #
 # @param [Integer] id the id of the post
 #
@@ -44,6 +53,12 @@ def get_doc_links_from_post_id(id)
              id)
 end
 
+#
+# Creates doc post links in the post_doc_rel tabel
+#
+# @param [Integer] id Id of the post
+# @param [Array<Integer>] doc_link_ids An array of doc ids #[intgers] which describe the docs the post is linked with
+#
 def create_post_doc_link(id, doc_link_ids)
   db = load_db
   doc_link_ids.each do |doc_id|
@@ -55,6 +70,11 @@ def create_post_doc_link(id, doc_link_ids)
   end
 end
 
+#
+# Removes doc post links in the post_doc_rel tabel
+#
+# @param [Integer] id Id of the post
+#
 def delete_post_links(id)
   db = load_db
   db.execute('DELETE
@@ -63,6 +83,13 @@ def delete_post_links(id)
              id)
 end
 
+#
+# Updates the Post with specified id with the given head, body, time at update and links to docs
+#
+# @param [Integer] id Id of the post
+# @param [String] body The body of the post
+# @param [Array<Integer>] doc_link_ids An array of doc ids #[intgers] which describe the docs to link to
+#
 def update_post(id,body,head,doc_link_ids)
   db = load_db
   date = Time.new.to_s
