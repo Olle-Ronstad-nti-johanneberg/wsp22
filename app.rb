@@ -33,6 +33,8 @@ CREATE_POST_AUTH = 0
 
 enable :sessions
 
+include Auth, DBDocsTools, DBPostTools, DBTools, DBUserTools
+
 # takes an argument(msg) and displays it to the user
 def send_err_msg(msg)
   session[:err_msg] = msg
