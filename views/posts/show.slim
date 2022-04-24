@@ -1,6 +1,6 @@
 h2 posts
 p #{post['date']}
-a href="/account/#{post['user']}" link to user
+a href="/account/#{post['user']}" posted by: #{get_user_name(post['user'])}
 h1 #{post['head']}
 p #{post['body']}
 
