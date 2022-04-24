@@ -74,4 +74,17 @@ module DBUserTools
       -1
     end
   end
+
+  #
+  # Returns user_name of the given id
+  #
+  # @param [Integer] id Id of the user
+  #
+  # @return [String] user_name of the user
+  #
+  def get_user_name(id)
+    load_db.execute('SELECT user_name
+                    FROM users
+                    WHERE id=?', id)[0]['user_name']
+  end
 end
