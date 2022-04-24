@@ -3,11 +3,11 @@
 #
 module DBPostTools
   #
-  # Creates a post with the given head, body, time at creation and links to docs
+  # Creates a post with the given head, body, time at creation and links to docs and user who created it
   #
   # @param [String] head The head of the post
   # @param [String] body The body of the post
-  # @param [Array<Integer>] doc_link_ids An array of doc ids #[intgers] which describe the docs to link to
+  # @param [Array<Integer>] doc_link_ids An array of doc ids #{intgers} which describe the docs to link to
   #
   # @return [Integer] Id of the created post
   #
@@ -30,7 +30,7 @@ module DBPostTools
   #
   # @param [Integer] id Id of the desierd post
   #
-  # @return [Hash] A #[Hash] with the keys #[String] 'date', 'head', 'body' and 'user'
+  # @return [Hash] A #{Hash} with the keys 'date', 'head', 'body' and 'user'
   #
   def get_post_by_id(id)
     db = load_db
@@ -41,7 +41,7 @@ module DBPostTools
   end
 
   #
-  # Returns a #[Array] with the head and id of the docs linked to the given post
+  # Returns a #{Array} with the head and id of the docs linked to the given post
   #
   # @param [Integer] id the id of the post
   #
@@ -61,16 +61,16 @@ module DBPostTools
   # Creates doc post links in the post_doc_rel tabel
   #
   # @param [Integer] id Id of the post
-  # @param [Array<Integer>] doc_link_ids An array of doc ids #[intgers] which describe the docs the post is linked with
+  # @param [Array<Integer>] doc_link_ids An array of doc ids #{intgers} which describe the docs the post is linked with
   #
   def create_post_doc_link(id, doc_link_ids)
     db = load_db
     doc_link_ids.each do |doc_id|
       db.execute('INSERT
-                INTO doc_post_rel (post, doc)
-                VALUES (?,?)',
-                id,
-                doc_id)
+                 INTO doc_post_rel (post, doc)
+                 VALUES (?,?)',
+                 id,
+                 doc_id)
     end
   end
 
