@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'bcrypt'
 
 module DBUserTools
@@ -86,5 +88,50 @@ module DBUserTools
     load_db.execute('SELECT user_name
                     FROM users
                     WHERE id=?', id)[0]['user_name']
+  end
+
+  #
+  # Uppdates the user information returns 1 if sucessful and -1 if user_first_name/user_last_ exist
+  #
+  # @param [Integer] id id of the user to update
+  # @param [String] user_name New user_name
+  # @param [String] first_name New user_fisrt_name
+  # @param [String] last_name New user_last_name
+  #
+  # @return [Integer] Returns 1 if sucessful and -1 if user_first_name/user_last_ exist
+  #
+  def update_user(id, user_name, first_name, last_name)
+    db = load_db
+    if allow_first_last_name_change?
+      db.execute('UPDATE users
+                 SET user_name = ?,first_name = ?, last_name = ?
+                 WHERE id = ?',
+                 user_name,
+                 first_name,
+                 last_name,
+                 id)
+      1
+    else
+      -1
+    end
+  end
+
+  private
+
+  def allow_first_last_name_change?(id, first_name, last_name)
+    db = load_db
+    user_names = db.execute('SELECT first_name, last_name
+                            FROM users
+                            WHERE id=?',
+                            id)
+    if user_names['first_name'] == first_name && user_names['last_name'] == last_name
+      true
+    else
+      db.execute('SELECT *
+                 FROM users
+                 WHERE first_name=? AND last_name=?',
+                 first_name,
+                 last_name).empty?
+    end
   end
 end
