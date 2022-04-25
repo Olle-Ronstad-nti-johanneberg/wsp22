@@ -1,9 +1,8 @@
 h1 #{user["user_name"]}
+p first name: #{user["first_name"]}
 - if cookie_auth(user['id'], EDIT_ACOUNT_AUTH)
-    p first name: #{user["first_name"]}
     p last name: #{user["last_name"]}
     p admin level: #{user["admin_level"]}
-    a href="/account/#{user['id']}/edit" 
-    a href="/logout" logout
-- else 
-    p first name: #{user["first_name"]}
+    a href="/account/#{user['id']}/edit" edit
+    - if user['id'] == user_id
+        a href="/logout" logout
