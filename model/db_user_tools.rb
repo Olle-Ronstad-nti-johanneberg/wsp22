@@ -116,6 +116,20 @@ module DBUserTools
     end
   end
 
+  #
+  # Updates users password
+  #
+  # @param [Integer] id Id of the user
+  # @param [String] new_password The new password to set
+  #
+  def update_paswd(id, new_password)
+    load_db.execute('UPDATE users
+                    SET paswd_hash = ?
+                    WHERE id = ?',
+                    BCrypt::Password.create(new_password),
+                    id)
+  end
+
   private
 
   #
