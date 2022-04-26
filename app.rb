@@ -96,7 +96,7 @@ post '/account/new' do
       params[:last_name],
       params[:passwd]
     )
-    send_err_msg('first and last name combo alredy exist') if id == -1
+    send_err_msg('first and last name combination alredy exist') if id == -1
     redirect "/account/#{id}"
   else
 
@@ -112,9 +112,12 @@ end
 # edits the account
 post '/account/:id/update' do
   if auth(params[:id], EDIT_ACOUNT_AUTH, get_user_id(params[:auth_first_name], params[:auth_last_name]), params[:auth_paswd])
-    load_db.execute('UPDATE users SET user_name = ?,first_name = ?, last_name = ? WHERE id = ?',
-                    params[:user_name], params[:first_name], params[:last_name], params[:id])
-    redirect "/account/#{params[:id]}"
+    sucsess = update_user(params[:id], params[:user_name], params[:first_name], params[:last_name])
+    if sucsess == 1
+      redirect "/account/#{params[:id]}"
+    else
+      send_err_msg('first and last name combination alredy exist')
+    end
   else
     send_err_msg('authentication failed')
   end
