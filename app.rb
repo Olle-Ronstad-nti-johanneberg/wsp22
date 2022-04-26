@@ -207,6 +207,10 @@ post '/posts/:id/update' do
   redirect "/posts/#{params[:id]}"
 end
 
+get '/posts/search' do
+  slim :"posts/index", locals: { posts: search_posts(params[:search]) }
+end
+
 get '/posts/:id' do
   post = get_post_by_id(params[:id])
   doc_links = get_doc_links_from_post_id(params[:id])

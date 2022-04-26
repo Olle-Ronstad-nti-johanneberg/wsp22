@@ -1,0 +1,8 @@
+h1 search results for: #{params[:search]}
+-posts.each do |post|
+  article 
+    a href="/posts/#{post["id"]}" 
+      h2 #{post["head"]}
+    p date #{post["date"]}
+- if posts.empty?
+  h2 no result found

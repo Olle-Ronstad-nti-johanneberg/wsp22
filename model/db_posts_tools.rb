@@ -107,4 +107,12 @@ module DBPostTools
     delete_post_links(id)
     create_post_doc_link(id, doc_link_ids)
   end
+
+  def search_posts(word)
+    db = load_db
+    db.execute('SELECT id, head, date
+               FROM post
+               WHERE head LIKE ?',
+               "%#{word}%")
+  end
 end
