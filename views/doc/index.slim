@@ -4,3 +4,5 @@ h1 search results for: #{params[:search]}
     a href="/docs/#{doc["id"]}" 
       h2 #{doc["head"]}
     p date #{doc["date"]}
+- if docs.empty?
+  h2 no result found
