@@ -127,7 +127,9 @@ end
 
 # shows an account
 get '/account/:id' do
-  slim :"account/show", locals: { user: get_user(params[:id]), user_id:session[:user_id]}
+  slim :"account/show", locals: { user: get_user(params[:id]),
+                                  user_id: session[:user_id],
+                                  posts: get_users_posts(params[:id]) }
 end
 
 # create docs page

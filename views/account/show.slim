@@ -6,3 +6,8 @@ p first name: #{user["first_name"]}
     a href="/account/#{user['id']}/edit" edit
     - if user['id'] == user_id
         a href="/logout" logout
+h2 user posts 
+- posts.each do |post|
+    a href="/posts/#{post['id']}" #{post['head']}
+- if posts.empty?
+    p user has no posts
