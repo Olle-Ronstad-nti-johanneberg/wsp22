@@ -130,6 +130,20 @@ module DBUserTools
                     id)
   end
 
+  #
+  # Returns an #{Array} of all the post the user has made
+  #
+  # @param [Integer] id Id of the user
+  #
+  # @return [Array<Hash>] An #{Array} of #{Hash} with the keys 'id' and 'head'
+  #
+  def get_users_posts(id)
+    load_db.execute('SELECT id, head
+                    FROM post
+                    WHERE user = ?',
+                    id)
+  end
+
   private
 
   #
