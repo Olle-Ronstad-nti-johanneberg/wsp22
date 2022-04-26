@@ -102,7 +102,7 @@ module DBUserTools
   #
   def update_user(id, user_name, first_name, last_name)
     db = load_db
-    if allow_first_last_name_change?
+    if allow_first_last_name_change?(id, first_name, last_name)
       db.execute('UPDATE users
                  SET user_name = ?,first_name = ?, last_name = ?
                  WHERE id = ?',
@@ -132,7 +132,7 @@ module DBUserTools
     user_names = db.execute('SELECT first_name, last_name
                             FROM users
                             WHERE id=?',
-                            id)
+                            id).first
     if user_names['first_name'] == first_name && user_names['last_name'] == last_name
       true
     else
