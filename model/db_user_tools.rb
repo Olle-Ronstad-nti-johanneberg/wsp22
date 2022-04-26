@@ -118,6 +118,15 @@ module DBUserTools
 
   private
 
+  #
+  # Returns true or false acording to if a first name last name combination all ready exists ignoring if user alredy has the last name and first name 
+  #
+  # @param [Integer] id Id of user
+  # @param [<Type>] first_name New first name
+  # @param [<Type>] last_name New last name
+  #
+  # @return [Boolean] se description
+  #
   def allow_first_last_name_change?(id, first_name, last_name)
     db = load_db
     user_names = db.execute('SELECT first_name, last_name
