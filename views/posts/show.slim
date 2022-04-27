@@ -4,5 +4,7 @@ a href="/account/#{post['user']}" posted by: #{get_user_name(post['user'])}
 h1 #{post['head']}
 p #{post['body']}
 
+- if cookie_auth(params[:id], EDIT_POST_AUTH)
+  a href="/posts/#{params[:id]}/edit" edit post 
 -doc_links.each do |doc|
   a href="/docs/#{doc['id']}" #{doc['head']} 

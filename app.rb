@@ -30,6 +30,7 @@ CREATE_DOC_AUTH = 1
 EDIT_ACOUNT_AUTH = 10
 EDIT_DOC_AUTH = 2
 CREATE_POST_AUTH = 0
+EDIT_POST_AUTH = 5
 
 enable :sessions
 
@@ -169,7 +170,7 @@ get '/docs/search' do
 end
 
 get '/docs/:id' do
-  slim :"doc/show", locals: { doc: get_doc_by_id(params[:id].to_i), show_edit: cookie_auth(nil, EDIT_DOC_AUTH)}
+  slim :"doc/show", locals: { doc: get_doc_by_id(params[:id].to_i)}
 end
 
 get '/posts/new' do
