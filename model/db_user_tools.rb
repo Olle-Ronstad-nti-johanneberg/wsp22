@@ -2,6 +2,9 @@
 
 require 'bcrypt'
 
+#
+# Contains methods related to users
+#
 module DBUserTools
   #
   # return user id based on first_name and last_name
