@@ -1,19 +1,15 @@
 form action="/account/#{params[:id]}/update" method="post" 
     
-    label for="user_name" user name 
+    label for="user_name" Username 
     input type="text" name="user_name" value="#{user["user_name"]}"
-    label for="first_name" user name 
+    label for="first_name" First name
     input type="text" name="first_name" value="#{user["first_name"]}"
-    label for="last_name" last name 
+    label for="last_name" Last name
     input type="text" name="last_name" value="#{user["last_name"]}"
-    label for="paswd" password, leave empty to ignore 
+    label for="paswd" Password, leave empty to ignore 
     input type="password" name="paswd"
     
     h2 Authentication for the changes
-    label for="auth_first_name" your current first name (or admin's)
-    input type="text" name="auth_first_name" value="#{user["first_name"]}"
-    label for="auth_last_name" your current last name (or admin's)
-    input type="text" name="auth_last_name" value="#{user["last_name"]}"
-    label for="auth_paswd"   your current password (or admin's)
+    label for="auth_paswd"   your current password
     input type="password" name="auth_paswd"
     button type="submit" Submit changes

@@ -158,7 +158,7 @@ end
 #
 post '/account/:id/update' do
   p params
-  if auth(params[:id], EDIT_ACOUNT_AUTH, get_user_id(params[:auth_first_name], params[:auth_last_name]), params[:auth_paswd])
+  if auth(params[:id], EDIT_ACOUNT_AUTH, session[:user_id], params[:auth_paswd])
     sucsess = update_user(params[:id], params[:user_name], params[:first_name], params[:last_name])
     if sucsess == 1
       update_paswd(params[:id],params[:paswd]) unless params[:paswd] == ''
