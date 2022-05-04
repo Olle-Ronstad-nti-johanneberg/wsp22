@@ -84,15 +84,6 @@ before '/docs/:id/update' do
   send_err_msg('authentication failed') unless cookie_auth(nil, EDIT_DOC_AUTH)
 end
 
-# '/posts/:id/delete'
-
-#
-# before block cheaking auth
-#
-before '/posts/new' do
-  send_err_msg('authentication failed') unless cookie_auth(nil, CREATE_POST_AUTH)
-end
-
 #
 # before block cheaking auth
 #
@@ -196,6 +187,10 @@ post '/account/new' do
       params[:passwd]
     )
     send_err_msg('first and last name combination alredy exist') if id == -1
+    user = get_user(id)
+    session[:user_id] = id
+    session[:user_name] = user['user_name']
+    session[:admin_level] = user['admin_level']
     redirect "/account/#{id}"
   else
 
@@ -230,6 +225,8 @@ post '/account/:id/update' do
   if auth(params[:id], EDIT_ACOUNT_AUTH, session[:user_id], params[:auth_paswd])
     sucsess = update_user(params[:id], params[:user_name], params[:first_name], params[:last_name])
     if sucsess == 1
+      user = get_user()
+      session[:user_name] = get_user_name(params[id])['user_name']
       update_paswd(params[:id],params[:paswd]) unless params[:paswd] == ''
       redirect "/account/#{params[:id]}"
     else
@@ -255,15 +252,11 @@ end
 # Displays docs new page
 #
 get '/docs/new' do
-  if !session[:user_id].nil?
-    slim :"doc/new"
-  else
-    send_err_msg 'please login to create docs'
-  end
+  slim :"doc/new"
 end
 
 #
-# Create doc with the given information, throws an error if user is not authorized.
+# Create doc with the given information
 # Redirect user to /docs/(id of the newly created doc)
 #
 # @param [String] :head The head of the doc
@@ -271,12 +264,8 @@ end
 # @param [String] :head The source of the doc
 #
 post '/docs/new' do
-  if cookie_auth(nil,CREATE_DOC_AUTH)
-    id = create_doc(params[:head], params[:body], params[:source])
-    redirect "/docs/#{id}"
-  else
-    send_err_msg 'hello hackerman'
-  end
+  id = create_doc(params[:head], params[:body], params[:source])
+  redirect "/docs/#{id}"
 end
 
 #
@@ -297,12 +286,8 @@ end
 # @param [String] :source The new Source
 #
 post '/docs/:id/update' do
-  if cookie_auth(nil, EDIT_DOC_AUTH)
-    update_doc(params[:id],params[:head], params[:body], params[:source])
-    redirect "/docs/#{params[:id]}"
-  else
-    send_err_msg 'missing the requierd auth'
-  end
+  update_doc(params[:id],params[:head], params[:body], params[:source])
+  redirect "/docs/#{params[:id]}"
 end
 
 #
