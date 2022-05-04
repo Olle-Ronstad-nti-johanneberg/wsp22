@@ -19,7 +19,6 @@ else
   p 'set logger to WARN'
 end
 
-require_relative 'model/terminal_color'
 require_relative 'model/db_tools'
 require_relative 'model/auth'
 require_relative 'model/db_user_tools'
