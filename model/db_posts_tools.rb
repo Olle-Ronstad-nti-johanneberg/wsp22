@@ -108,11 +108,46 @@ module DBPostTools
     create_post_doc_link(id, doc_link_ids)
   end
 
+  #
+  # Deletes a post and its links from post doc realtion table
+  #
+  # @param [Integer] id The id of the post
+  #
+  def delete_post(id)
+    db = load_db
+    db.execute('DELETE
+               FROM Post
+               WHERE id = ?',
+               id)
+    delete_post_links(id)
+  end
+
+  #
+  # Returns an #{Array} with post whose head contain the word
+  #
+  # @param [String] word The string wich head must contain
+  #
+  # @return [Array<Hash>] An #{Array} with #{Hash} with the keys ´id´, 'head' and 'date'
+  #
   def search_posts(word)
     db = load_db
     db.execute('SELECT id, head, date
                FROM post
                WHERE head LIKE ?',
                "%#{word}%")
+  end
+
+  #
+  # Returns user id from post
+  #
+  # @param [Integer] id The posts id
+  #
+  # @return [Integer] The posts user id
+  #
+  def post_user_id(id)
+    load_db.execute('SELECT user
+                    FROM post
+                    WEHRE id = ?',
+                    id)['user']
   end
 end
