@@ -25,11 +25,14 @@ require_relative 'model/db_user_tools'
 require_relative 'model/db_docs_tools'
 require_relative 'model/db_posts_tools'
 
-CREATE_DOC_AUTH = 1
 EDIT_ACOUNT_AUTH = 10
+DEL_ACCOUNT_AUTH = 10
+CREATE_DOC_AUTH = 1
 EDIT_DOC_AUTH = 2
+DEL_DOC_AUTH = 5
 CREATE_POST_AUTH = 0
 EDIT_POST_AUTH = 5
+DEL_POST_AUTH = 5
 
 enable :sessions
 
@@ -43,6 +46,72 @@ include Auth, DBDocsTools, DBPostTools, DBTools, DBUserTools
 def send_err_msg(msg)
   session[:err_msg] = msg
   redirect '/error'
+end
+
+
+#
+# before block cheaking auth
+#
+before '/account/:id/edit' do
+  send_err_msg('authentication failed') unless cookie_auth(params[:id], EDIT_ACOUNT_AUTH)
+end
+
+#
+# before block cheaking auth
+#
+before '/account/:id/update' do
+  send_err_msg('authentication failed') unless cookie_auth(params[:id], EDIT_ACOUNT_AUTH)
+end
+
+#
+# before block cheaking auth
+#
+before '/docs/new' do
+  send_err_msg('authentication failed') unless cookie_auth(nil, CREATE_DOC_AUTH)
+end
+
+#
+# before block cheaking auth
+#
+before '/docs/:id/edit' do
+  send_err_msg('authentication failed') unless cookie_auth(nil, EDIT_DOC_AUTH)
+end
+
+#
+# before block cheaking auth
+#
+before '/docs/:id/update' do
+  send_err_msg('authentication failed') unless cookie_auth(nil, EDIT_DOC_AUTH)
+end
+
+# '/posts/:id/delete'
+
+#
+# before block cheaking auth
+#
+before '/posts/new' do
+  send_err_msg('authentication failed') unless cookie_auth(nil, CREATE_POST_AUTH)
+end
+
+#
+# before block cheaking auth
+#
+before '/posts/:id/edit' do
+  send_err_msg('authentication failed') unless cookie_auth(post_user_id(params[:id]), EDIT_POST_AUTH)
+end
+
+#
+# before block cheaking auth
+#
+before '/posts/:id/update' do
+  send_err_msg('authentication failed') unless cookie_auth(post_user_id(params[:id]), EDIT_POST_AUTH)
+end
+
+#
+# before block cheaking auth
+#
+before '/posts/:id/delete' do
+  send_err_msg('authentication failed') unless cookie_auth(post_user_id(params[:id]), DEL_POST_AUTH)
 end
 
 #
@@ -323,6 +392,11 @@ end
 #
 get '/posts/search' do
   slim :"posts/index", locals: { posts: search_posts(params[:search]) }
+end
+
+get '/posts/:id/delete' do
+  delete_post(params[:id])
+  redirect '/'
 end
 
 #
