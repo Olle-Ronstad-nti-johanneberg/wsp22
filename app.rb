@@ -225,7 +225,6 @@ post '/account/:id/update' do
   if auth(params[:id], EDIT_ACOUNT_AUTH, session[:user_id], params[:auth_paswd])
     sucsess = update_user(params[:id], params[:user_name], params[:first_name], params[:last_name])
     if sucsess == 1
-      user = get_user()
       session[:user_name] = get_user_name(params[id])['user_name']
       update_paswd(params[:id],params[:paswd]) unless params[:paswd] == ''
       redirect "/account/#{params[:id]}"
