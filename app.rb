@@ -394,6 +394,11 @@ get '/posts/search' do
   slim :"posts/index", locals: { posts: search_posts(params[:search]) }
 end
 
+#
+# Deletes the post with the given id
+#
+# @param [Integer] :id Id of the post to delete
+#
 get '/posts/:id/delete' do
   delete_post(params[:id])
   redirect '/'
