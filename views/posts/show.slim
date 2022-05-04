@@ -6,5 +6,7 @@ p #{post['body']}
 
 - if cookie_auth(params[:id], EDIT_POST_AUTH)
   a href="/posts/#{params[:id]}/edit" edit post 
+- if cookie_auth(params[:id], DEL_POST_AUTH)
+   a href="/posts/#{params[:id]}/delete" delete  post
 -doc_links.each do |doc|
   a href="/docs/#{doc['id']}" #{doc['head']} 
